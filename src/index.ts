@@ -1,44 +1,34 @@
-import express, { Request, Response } from "express"
-import fs from "fs"
+import express, { Request, Response, NextFunction } from "express"
+import { Products } from "./Products"
+import { productsMock } from "./productsMock"
 
 const PORT = 8080
-let counterItems = 0
-let counterItemRandom = 0
+const products = new Products(productsMock)
 
 const app = express()
 
-app.get("/items", async (req: Request, res: Response) => {
-  counterItems++
-  try {
-    const products = await fs.promises.readFile("./src/products.txt", "utf-8")
-    const productsParse = JSON.parse(products)
-    const response = {
-      items: productsParse,
-      cantidad: productsParse.length,
-    }
-    res.send(response)
-  } catch (error) {
-    console.log(error)
-  }
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
+  res.status(500).send(`Something broke! ${err.stack}`)
 })
 
-app.get("/item-random", async (req: Request, res: Response) => {
-  counterItemRandom++
-  try {
-    const products = await fs.promises.readFile("./src/products.txt", "utf-8")
-    const productsParse = JSON.parse(products)
-    const randomNumber = Math.floor(Math.random() * productsParse.length)
-    const response = {
-      item: productsParse[randomNumber],
-    }
-    res.send(response)
-  } catch (error) {
-    console.log(error)
-  }
+app.get("/api/productos/listar", (req: Request, res: Response) => {
+  const result = products.getProducts()
+  result ? res.send(result) : res.send({ error: "No hay productos cargados." })
 })
 
-app.get("/visitas", (req: Request, res: Response) => {
-  res.send({ visitas: { items: counterItems, item: counterItemRandom } })
+app.get("/api/productos/listar/:id", (req: Request, res: Response) => {
+  const id = parseInt(req.params.id)
+  const result = products.getProductById(id)
+  result ? res.send(result) : res.send({ error: "Producto no encontrado." })
+})
+
+app.post("/api/productos/guardar", (req: Request, res: Response) => {
+  const newProduct = req.body
+  const result = products.addProduct(newProduct)
+  res.send(result)
 })
 
 app.listen(PORT, () => {
