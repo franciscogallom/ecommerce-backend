@@ -19,8 +19,11 @@ router.get("/listar/:id", (req: Request, res: Response) => {
 
 router.post("/guardar", (req: Request, res: Response) => {
   const newProduct = req.body
-  const result = products.addProduct(newProduct)
-  res.send(result)
+  products.addProduct(newProduct)
+  res.render("view", {
+    products: products.getProducts(),
+    length: 1,
+  })
 })
 
 router.put("/actualizar/:id", (req: Request, res: Response) => {
@@ -34,6 +37,14 @@ router.delete("/borrar/:id", (req: Request, res: Response) => {
   const id = parseInt(req.params.id)
   const result = products.deleteProductById(id)
   result ? res.send(result) : res.send({ error: "Producto no encontrado." })
+})
+
+router.get("/vista", (req: Request, res: Response) => {
+  const result = products.getProducts()
+  res.render("view", {
+    products: result,
+    length: result ? result.length : 0,
+  })
 })
 
 export default router
