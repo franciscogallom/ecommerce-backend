@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from "express"
 import path from "path"
 import productos from "./productos"
+import { Products } from "./Products"
+import { productsMock } from "./productsMock"
 
 const PORT = 8080
 const app = express()
@@ -18,6 +20,13 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
 })
 
 app.use("/api/productos", productos)
+
+app.get("/", (req: Request, res: Response) => {
+  const products = new Products(productsMock)
+  res.render("index", {
+    products: products.getProducts(),
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}!`)

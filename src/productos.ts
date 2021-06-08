@@ -20,10 +20,7 @@ router.get("/listar/:id", (req: Request, res: Response) => {
 router.post("/guardar", (req: Request, res: Response) => {
   const newProduct = req.body
   products.addProduct(newProduct)
-  res.render("index", {
-    products: products.getProducts(),
-    length: 1,
-  })
+  res.redirect("/")
 })
 
 router.put("/actualizar/:id", (req: Request, res: Response) => {
@@ -42,9 +39,7 @@ router.delete("/borrar/:id", (req: Request, res: Response) => {
 router.get("/vista", (req: Request, res: Response) => {
   const result = products.getProducts()
   res.render("index", {
-    nombre: "raul",
     products: result,
-    length: result ? result.length : 0,
   })
 })
 
