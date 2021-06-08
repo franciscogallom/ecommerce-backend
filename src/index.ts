@@ -11,8 +11,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use("/static", express.static(path.join(__dirname, "/public")))
 
-// Seteo el motor de plantillas.
-app.set("view engine", "pug")
+// Seteo el motor de plantillas EJS.
+app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "/views"))
 
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
