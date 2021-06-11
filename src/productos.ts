@@ -38,7 +38,7 @@ router.delete("/borrar/:id", (req: Request, res: Response) => {
 
 router.get("/vista", (req: Request, res: Response) => {
   const result = products.getProducts()
-  res.render("index", {
+  res.render("view", {
     products: result,
   })
 })
