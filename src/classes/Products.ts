@@ -1,20 +1,9 @@
-interface Product {
-  title: string
-  price: number
-  thumbnail: string
-  id: number
-}
-
-interface ProductReceived {
-  title: string
-  price: number
-  thumbnail: string
-}
+import { IProduct, IProductReceived } from "../interfaces/Product"
 
 export class Products {
-  products: Product[]
+  products: IProduct[]
 
-  constructor(products: Product[]) {
+  constructor(products: IProduct[]) {
     this.products = products
   }
 
@@ -29,8 +18,12 @@ export class Products {
     return indexOfIdSearched !== -1 ? this.products[indexOfIdSearched] : false
   }
 
-  addProduct(product: ProductReceived) {
-    const newProduct = { ...product, id: this.products.length + 1 }
+  addProduct(product: IProductReceived) {
+    const newProduct = {
+      id: this.products.length + 1,
+      timestamp: new Date().toLocaleString(),
+      ...product,
+    }
     this.products.push(newProduct)
     return newProduct
   }
@@ -44,13 +37,18 @@ export class Products {
       : false
   }
 
-  updateProduct(product: ProductReceived, idSearched: number) {
+  updateProduct(product: IProductReceived, idSearched: number) {
     const indexOfIdSearched = this.products.findIndex(
       (element) => element.id === idSearched
     )
     if (indexOfIdSearched !== -1) {
-      this.products[indexOfIdSearched] = { ...product, id: idSearched }
-      return product
+      const updatedProduct = {
+        id: idSearched,
+        timestamp: new Date().toLocaleString(),
+        ...product,
+      }
+      this.products[indexOfIdSearched] = updatedProduct
+      return updatedProduct
     }
     return false
   }
