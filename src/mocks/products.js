@@ -1,4 +1,4 @@
-export const productsMock = [
+const productsMock = [
   {
     id: 1,
     timestamp: "20/6/2021 12:11:52",
@@ -40,3 +40,5 @@ export const productsMock = [
     stock: 7,
   },
 ]
+
+module.exports = productsMock

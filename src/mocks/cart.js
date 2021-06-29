@@ -1,4 +1,4 @@
-export const cartMock = {
+const cartMock = {
   id: 1,
   timestamp: "1/6/2021 12:00:22",
   products: [
@@ -14,3 +14,5 @@ export const cartMock = {
     },
   ],
 }
+
+module.exports = cartMock

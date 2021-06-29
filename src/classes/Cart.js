@@ -1,10 +1,5 @@
-import { IProductReceived } from "../interfaces/Product"
-import { ICart } from "../interfaces/Cart"
-
-export class Cart {
-  cart: ICart
-
-  constructor(cart: ICart) {
+class Cart {
+  constructor(cart) {
     this.cart = cart
   }
 
@@ -12,7 +7,7 @@ export class Cart {
     return this.cart.products.length > 0 ? this.cart : false
   }
 
-  getProductById(idSearched: number) {
+  getProductById(idSearched) {
     const indexOfIdSearched = this.cart.products.findIndex(
       (element) => element.id === idSearched
     )
@@ -21,7 +16,7 @@ export class Cart {
       : false
   }
 
-  addProduct(product: IProductReceived) {
+  addProduct(product) {
     const newProduct = {
       id: this.cart.products.length + 1,
       timestamp: new Date().toLocaleString(),
@@ -31,7 +26,7 @@ export class Cart {
     return newProduct
   }
 
-  deleteProductById(idSearched: number) {
+  deleteProductById(idSearched) {
     const indexOfIdSearched = this.cart.products.findIndex(
       (element) => element.id === idSearched
     )
@@ -40,3 +35,5 @@ export class Cart {
       : false
   }
 }
+
+module.exports = Cart

@@ -1,13 +1,13 @@
-import express, { Request, Response } from "express"
-import { Cart } from "../classes/Cart"
-import { cartMock } from "../mocks/cart"
-import { products } from "../routes/productos"
+const express = require("express")
+const Cart = require("../classes/Cart")
+const cartMock = require("../mocks/cart")
+const { products } = require("./productos")
 
 const cart = new Cart(cartMock)
 
 const router = express.Router()
 
-router.get("/listar/:id?", (req: Request, res: Response) => {
+router.get("/listar/:id?", (req, res) => {
   const id = parseInt(req.params.id)
   if (id) {
     const result = cart.getProductById(id)
@@ -22,7 +22,7 @@ router.get("/listar/:id?", (req: Request, res: Response) => {
   }
 })
 
-router.post("/agregar/:id_producto", (req: Request, res: Response) => {
+router.post("/agregar/:id_producto", (req, res) => {
   const id = parseInt(req.params.id_producto)
   const newProduct = products.getProductById(id)
   if (newProduct) {
@@ -33,7 +33,7 @@ router.post("/agregar/:id_producto", (req: Request, res: Response) => {
   }
 })
 
-router.delete("/borrar/:id", (req: Request, res: Response) => {
+router.delete("/borrar/:id", (req, res) => {
   const id = parseInt(req.params.id)
   const result = cart.deleteProductById(id)
   result
@@ -41,4 +41,4 @@ router.delete("/borrar/:id", (req: Request, res: Response) => {
     : res.send({ error: "Producto no encontrado en el carrito." })
 })
 
-export default router
+module.exports = router

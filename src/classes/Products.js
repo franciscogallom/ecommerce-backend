@@ -1,9 +1,5 @@
-import { IProduct, IProductReceived } from "../interfaces/Product"
-
-export class Products {
-  products: IProduct[]
-
-  constructor(products: IProduct[]) {
+class Products {
+  constructor(products) {
     this.products = products
   }
 
@@ -11,14 +7,14 @@ export class Products {
     return this.products.length > 0 ? this.products : false
   }
 
-  getProductById(idSearched: number) {
+  getProductById(idSearched) {
     const indexOfIdSearched = this.products.findIndex(
       (element) => element.id === idSearched
     )
     return indexOfIdSearched !== -1 ? this.products[indexOfIdSearched] : false
   }
 
-  addProduct(product: IProductReceived) {
+  addProduct(product) {
     const newProduct = {
       id: this.products.length + 1,
       timestamp: new Date().toLocaleString(),
@@ -28,7 +24,7 @@ export class Products {
     return newProduct
   }
 
-  deleteProductById(idSearched: number) {
+  deleteProductById(idSearched) {
     const indexOfIdSearched = this.products.findIndex(
       (element) => element.id === idSearched
     )
@@ -37,7 +33,7 @@ export class Products {
       : false
   }
 
-  updateProduct(product: IProductReceived, idSearched: number) {
+  updateProduct(product, idSearched) {
     const indexOfIdSearched = this.products.findIndex(
       (element) => element.id === idSearched
     )
@@ -53,3 +49,5 @@ export class Products {
     return false
   }
 }
+
+module.exports = Products

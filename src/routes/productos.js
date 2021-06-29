@@ -1,12 +1,12 @@
-import express, { Request, Response } from "express"
-import { Products } from "../classes/Products"
-import { productsMock } from "../mocks/products"
+const express = require("express")
+const Products = require("../classes/Products")
+const productsMock = require("../mocks/products")
 
 const router = express.Router()
 const admin = true
-export const products = new Products(productsMock)
+const products = new Products(productsMock)
 
-router.get("/listar/:id?", (req: Request, res: Response) => {
+router.get("/listar/:id?", (req, res) => {
   const id = parseInt(req.params.id)
   if (id) {
     const result = products.getProductById(id)
@@ -19,7 +19,7 @@ router.get("/listar/:id?", (req: Request, res: Response) => {
   }
 })
 
-router.post("/agregar", (req: Request, res: Response) => {
+router.post("/agregar", (req, res) => {
   if (admin) {
     const newProduct = req.body
     const result = products.addProduct(newProduct)
@@ -32,7 +32,7 @@ router.post("/agregar", (req: Request, res: Response) => {
   }
 })
 
-router.put("/actualizar/:id", (req: Request, res: Response) => {
+router.put("/actualizar/:id", (req, res) => {
   if (admin) {
     const newProduct = req.body
     const id = parseInt(req.params.id)
@@ -46,7 +46,7 @@ router.put("/actualizar/:id", (req: Request, res: Response) => {
   }
 })
 
-router.delete("/borrar/:id", (req: Request, res: Response) => {
+router.delete("/borrar/:id", (req, res) => {
   if (admin) {
     const id = parseInt(req.params.id)
     const result = products.deleteProductById(id)
@@ -59,4 +59,4 @@ router.delete("/borrar/:id", (req: Request, res: Response) => {
   }
 })
 
-export default router
+module.exports = { router, products }
