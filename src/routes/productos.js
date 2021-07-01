@@ -1,10 +1,11 @@
 const express = require("express")
 const Products = require("../classes/Products")
-const productsMock = require("../mocks/products")
+const File = require("../classes/File")
 
 const router = express.Router()
 const admin = true
-const products = new Products(productsMock)
+const file = new File("products")
+const products = new Products(file.read())
 
 router.get("/listar/:id?", (req, res) => {
   const id = parseInt(req.params.id)

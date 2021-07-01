@@ -1,9 +1,10 @@
 const express = require("express")
 const Cart = require("../classes/Cart")
-const cartMock = require("../mocks/cart")
+const File = require("../classes/File")
 const { products } = require("./productos")
 
-const cart = new Cart(cartMock)
+const file = new File("cart")
+const cart = new Cart(file.read())
 
 const router = express.Router()
 

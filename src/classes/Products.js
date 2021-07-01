@@ -1,3 +1,7 @@
+const File = require("../classes/File")
+
+const file = new File("products")
+
 class Products {
   constructor(products) {
     this.products = products
@@ -20,7 +24,10 @@ class Products {
       timestamp: new Date().toLocaleString(),
       ...product,
     }
-    this.products.push(newProduct)
+    const newProducts = file.read() // Leo el archivo.
+    newProducts.push(newProduct) // Agrego el producto al array.
+    file.write(newProducts) // Actualizo el archivo.
+    this.products = file.read() // Actualizo los productos de la clase.
     return newProduct
   }
 
@@ -28,9 +35,15 @@ class Products {
     const indexOfIdSearched = this.products.findIndex(
       (element) => element.id === idSearched
     )
-    return indexOfIdSearched !== -1
-      ? this.products.splice(indexOfIdSearched, 1)
-      : false
+    if (indexOfIdSearched !== -1) {
+      const newProducts = file.read()
+      newProducts.splice(indexOfIdSearched, 1)
+      file.write(newProducts)
+      this.products = file.read()
+      return newProducts
+    } else {
+      return false
+    }
   }
 
   updateProduct(product, idSearched) {
@@ -43,7 +56,10 @@ class Products {
         timestamp: new Date().toLocaleString(),
         ...product,
       }
-      this.products[indexOfIdSearched] = updatedProduct
+      const newProducts = file.read()
+      newProducts[indexOfIdSearched] = updatedProduct
+      file.write(newProducts)
+      this.products = file.read()
       return updatedProduct
     }
     return false
