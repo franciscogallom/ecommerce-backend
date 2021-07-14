@@ -60,4 +60,5 @@ router.delete("/borrar/:id", (req, res) => {
   }
 })
 
-module.exports = { router, products }
+exports.productos = router
+exports.products = products

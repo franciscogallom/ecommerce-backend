@@ -1,6 +1,5 @@
 const express = require("express")
-const productos = require("./routes/productos")
-const carrito = require("./routes/carrito")
+const { productos, carrito } = require("./routes/index")
 
 const PORT = process.env.PORT || 8080
 const app = express()
@@ -11,7 +10,7 @@ app.use(function (err, req, res, next) {
   res.status(500).send(`Something broke! ${err.stack}`)
 })
 
-app.use("/productos", productos.router)
+app.use("/productos", productos)
 app.use("/carrito", carrito)
 
 app.listen(PORT, () => {
