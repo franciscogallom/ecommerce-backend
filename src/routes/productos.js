@@ -1,29 +1,29 @@
 const express = require("express")
-const Products = require("../classes/Products")
-const File = require("../classes/File")
-
 const router = express.Router()
-const admin = true
-const file = new File("products")
-const products = new Products(file.read())
 
-router.get("/listar/:id?", (req, res) => {
-  const id = parseInt(req.params.id)
+const { database, admin } = require("../config.json")
+const factory = require("../factory")
+const Products = factory(`${database}P`)
+const products = new Products("product")
+
+router.get("/listar/:id?", async (req, res) => {
+  const { id } = req.params
   if (id) {
-    const result = products.getProductById(id)
+    const result = await products.getProductById(id)
     result ? res.send(result) : res.send({ error: "Producto no encontrado." })
   } else {
-    const result = products.getProducts()
+    const filter = req.query
+    const result = await products.getProducts(filter)
     result
       ? res.send(result)
       : res.send({ error: "No hay productos cargados." })
   }
 })
 
-router.post("/agregar", (req, res) => {
+router.post("/agregar", async (req, res) => {
   if (admin) {
-    const newProduct = req.body
-    const result = products.addProduct(newProduct)
+    const newProduct = { timestamp: new Date().toLocaleString(), ...req.body }
+    const result = await products.addProduct(newProduct)
     res.send(result)
   } else {
     res.send({
@@ -33,11 +33,11 @@ router.post("/agregar", (req, res) => {
   }
 })
 
-router.put("/actualizar/:id", (req, res) => {
+router.put("/actualizar/:id", async (req, res) => {
   if (admin) {
     const newProduct = req.body
-    const id = parseInt(req.params.id)
-    const result = products.updateProduct(newProduct, id)
+    const { id } = req.params
+    const result = await products.updateProduct(newProduct, id)
     result ? res.send(result) : res.send({ error: "Producto no encotrado." })
   } else {
     res.send({
@@ -47,11 +47,13 @@ router.put("/actualizar/:id", (req, res) => {
   }
 })
 
-router.delete("/borrar/:id", (req, res) => {
+router.delete("/borrar/:id", async (req, res) => {
   if (admin) {
-    const id = parseInt(req.params.id)
-    const result = products.deleteProductById(id)
-    result ? res.send(result) : res.send({ error: "Producto no encontrado." })
+    const { id } = req.params
+    const deletedProduct = await products.deleteProductById(id)
+    deletedProduct
+      ? res.send(deletedProduct)
+      : res.send({ error: "Producto no encontrado." })
   } else {
     res.send({
       error: -1,
@@ -60,5 +62,4 @@ router.delete("/borrar/:id", (req, res) => {
   }
 })
 
-exports.productos = router
-exports.products = products
+module.exports = router

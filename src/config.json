@@ -1,0 +1,4 @@
+{
+  "database": "Mongo",
+  "admin": true
+}
