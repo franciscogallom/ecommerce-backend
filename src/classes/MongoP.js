@@ -1,5 +1,6 @@
 const producto = require("../models/product")
 const Mongo = require("./Mongo")
+const logger = require("../config/log4js").getLogger("fileError")
 
 class MongoP extends Mongo {
   async getProducts(filter) {
@@ -32,7 +33,7 @@ class MongoP extends Mongo {
       }
       return response.length > 0 ? response : false
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
@@ -45,7 +46,7 @@ class MongoP extends Mongo {
       )
       return n ? newProduct : false
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 }

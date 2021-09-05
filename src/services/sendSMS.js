@@ -3,6 +3,9 @@ const client = require("twilio")(
   process.env.TWILIO_AUTH_TOKEN
 )
 
+const logger = require("../config/log4js").getLogger()
+const loggerError = require("../config/log4js").getLogger("fileError")
+
 const send = (to) =>
   client.messages
     .create({
@@ -11,10 +14,10 @@ const send = (to) =>
       to,
     })
     .then((res) => {
-      console.log(res)
+      logger.info(res)
     })
     .catch((e) => {
-      console.log(e)
+      loggerError.error(e)
     })
 
 module.exports = send

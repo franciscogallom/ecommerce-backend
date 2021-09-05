@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const logger = require("../config/log4js").getLogger("fileError")
 
 async function createConnection() {
   return await mongoose.connect(
@@ -10,7 +11,7 @@ async function createConnection() {
   )
 }
 
-createConnection().catch(() => console.log("Fallo la conexión a Mongoose."))
+createConnection().catch(() => logger.error("Fallo la conexión a Mongoose."))
 
 class Mongo {
   constructor(type) {
@@ -22,7 +23,7 @@ class Mongo {
       const response = await this.type.findById(idSearched)
       return response || false
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
@@ -31,7 +32,7 @@ class Mongo {
       const newProduct = await this.type.create(product)
       return newProduct
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
@@ -41,7 +42,7 @@ class Mongo {
       await this.type.deleteOne({ _id: idSearched })
       return productToDelete
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 }

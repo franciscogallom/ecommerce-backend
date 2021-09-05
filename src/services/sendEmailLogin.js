@@ -1,4 +1,6 @@
 const transporter = require("../config/nodemailerTransporter")
+const logger = require("../config/log4js").getLogger()
+const loggerError = require("../config/log4js").getLogger("fileError")
 
 const send = (user) => {
   return transporter.sendMail(
@@ -16,10 +18,10 @@ const send = (user) => {
     },
     (err, info) => {
       if (err) {
-        console.log(err)
+        loggerError.error(err)
         return err
       }
-      console.log(info)
+      logger.info(info)
     }
   )
 }

@@ -5,6 +5,7 @@ const express = require("express")
 const session = require("express-session")
 const passport = require("passport")
 const sessionConfig = require("./config/session")
+const logger = require("./config/log4js").getLogger()
 
 const {
   productos,
@@ -38,5 +39,5 @@ app.use("/error", error)
 app.use("/", home)
 
 app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}!`)
+  logger.info(`server running on port ${PORT}!`)
 })
