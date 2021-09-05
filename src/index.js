@@ -22,7 +22,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(function (err, req, res, next) {
-  res.status(500).send(`Something broke! ${err.stack}`)
+  res.status(500).send(`Something broke. ${err.stack}`)
 })
 app.use(express.static(__dirname + "/public"))
 app.use(session(sessionConfig))
