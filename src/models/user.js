@@ -8,8 +8,8 @@ const schema = mongoose.Schema(
     name: { type: String, required: true },
     address: { type: String, required: true },
     phone: { type: String, required: true },
-    age: { type: Number, required: true },
-    // photo: { type: Number, required: true },
+    age: { type: String, required: true },
+    photo: { type: String, required: true },
   },
   { collection: "usuarios" }
 )
