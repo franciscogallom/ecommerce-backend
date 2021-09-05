@@ -1,10 +1,8 @@
 const express = require("express")
 const router = express.Router()
-
-const { database, admin } = require("../config.json")
-const factory = require("../factory")
-const Products = factory(`${database}P`)
+const Products = require("../classes/MongoP")
 const products = new Products("product")
+const admin = process.env.ADMIN === "true"
 
 router.get("/listar/:id?", async (req, res) => {
   const { id } = req.params

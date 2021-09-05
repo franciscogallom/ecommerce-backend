@@ -1,9 +1,6 @@
 const express = require("express")
 const router = express.Router()
-
-const { database } = require("../config.json")
-const factory = require("../factory")
-const Cart = factory(`${database}C`)
+const Cart = require("../classes/MongoC")
 const cart = new Cart("cart")
 
 router.get("/listar/:id?", async (req, res) => {
@@ -20,8 +17,8 @@ router.get("/listar/:id?", async (req, res) => {
 })
 
 router.post("/agregar/:id_producto", async (req, res) => {
-  const Products = require(`../classes/${database}P`)
-  const products = new Products()
+  const Products = require(`../classes/MongoP`)
+  const products = new Products("product")
   const id = req.params.id_producto
   const newProduct = await products.getProductById(id)
   if (newProduct) {
