@@ -1,9 +1,11 @@
 const express = require("express")
 const router = express.Router()
+
 const Cart = require("../classes/MongoC")
 const cart = new Cart("cart")
-const sendEmail = require("../services/sendEmailPurchase")
 const user = require("../models/user")
+const sendEmail = require("../services/sendEmailPurchase")
+const sendSMS = require("../services/sendSMS")
 
 router.get("/listar/:id?", async (req, res) => {
   const { id } = req.params
@@ -47,8 +49,11 @@ router.post("/comprar", async (req, res) => {
     res.send("Expiro la sesion.")
   } else {
     const result = await cart.getProducts()
-    const { name, username } = await user.findById(req.session.passport.user)
+    const { name, username, phone } = await user.findById(
+      req.session.passport.user
+    )
     sendEmail(name, username, result)
+    sendSMS(phone)
     res.send(result)
   }
 })
