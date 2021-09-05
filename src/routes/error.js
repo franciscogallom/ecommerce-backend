@@ -2,7 +2,7 @@ const router = require("express").Router()
 
 router.get("/:message", (req, res) => {
   const { message } = req.params
-  res.render("error", { message })
+  res.send({ error: `Algo salio mal en ${message}` })
 })
 
 module.exports = router
