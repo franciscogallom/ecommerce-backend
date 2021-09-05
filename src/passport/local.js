@@ -1,7 +1,7 @@
 const passport = require("passport")
 const LocalStrategy = require("passport-local")
 const User = require("../models/user")
-const sendEmail = require("../services/sendEmail")
+const sendEmail = require("../services/sendEmailLogin")
 
 passport.serializeUser((user, done) => {
   done(null, user._id)

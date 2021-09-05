@@ -2,6 +2,8 @@ const express = require("express")
 const router = express.Router()
 const Cart = require("../classes/MongoC")
 const cart = new Cart("cart")
+const sendEmail = require("../services/sendEmailPurchase")
+const user = require("../models/user")
 
 router.get("/listar/:id?", async (req, res) => {
   const { id } = req.params
@@ -38,6 +40,17 @@ router.delete("/borrar/:id", async (req, res) => {
   deletedProduct
     ? res.send(deletedProduct)
     : res.send({ error: "Producto no encontrado." })
+})
+
+router.post("/comprar", async (req, res) => {
+  if (!req.session.passport?.user) {
+    res.send("Expiro la sesion.")
+  } else {
+    const result = await cart.getProducts()
+    const { name, username } = await user.findById(req.session.passport.user)
+    sendEmail(name, username, result)
+    res.send(result)
+  }
 })
 
 module.exports = router
