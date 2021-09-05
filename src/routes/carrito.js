@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
-
-const Cart = require("../classes/MongoC")
+const factory = require("../services/factory")
+const Cart = factory(`${process.env.DB}C`)
 const cart = new Cart("cart")
 const user = require("../models/user")
 const sendEmail = require("../services/sendEmailPurchase")
@@ -22,7 +22,7 @@ router.get("/listar/:id?", async (req, res) => {
 })
 
 router.post("/agregar/:id_producto", async (req, res) => {
-  const Products = require(`../classes/MongoP`)
+  const Products = require(`../classes/${process.env.DB}P`)
   const products = new Products("product")
   const id = req.params.id_producto
   const newProduct = await products.getProductById(id)

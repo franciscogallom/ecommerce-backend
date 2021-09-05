@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
-const Products = require("../classes/MongoP")
+const factory = require("../services/factory")
+const Products = factory(`${process.env.DB}P`)
 const products = new Products("product")
 const admin = process.env.ADMIN === "true"
 
