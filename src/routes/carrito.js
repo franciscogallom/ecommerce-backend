@@ -6,6 +6,7 @@ const cart = new Cart("cart")
 const user = require("../models/user")
 const sendEmail = require("../services/sendEmailPurchase")
 const sendSMS = require("../services/sendSMS")
+const sendWsp = require("../services/sendWsp")
 
 router.get("/listar/:id?", async (req, res) => {
   const { id } = req.params
@@ -54,6 +55,7 @@ router.post("/comprar", async (req, res) => {
     )
     sendEmail(name, username, result)
     sendSMS(phone)
+    sendWsp(name, username)
     res.send(result)
   }
 })
