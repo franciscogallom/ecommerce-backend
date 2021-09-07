@@ -7,6 +7,7 @@ const user = require("../models/user")
 const sendEmail = require("../services/sendEmailPurchase")
 const sendSMS = require("../services/sendSMS")
 const sendWsp = require("../services/sendWsp")
+const logger = require("../config/log4js").getLogger("fileError")
 
 router.get("/listar/:id?", async (req, res) => {
   const { id } = req.params
@@ -49,14 +50,20 @@ router.post("/comprar", async (req, res) => {
   if (!req.session.passport?.user) {
     res.send("Expiro la sesion.")
   } else {
-    const result = await cart.getProducts()
-    const { name, username, phone } = await user.findById(
-      req.session.passport.user
-    )
-    sendEmail(name, username, result)
-    sendSMS(phone)
-    sendWsp(name, username)
-    res.send(result)
+    try {
+      const result = await cart.getProducts()
+      const { name, username, phone } = await user.findById(
+        req.session.passport.user
+      )
+      sendEmail(name, username, result)
+      sendSMS(phone)
+      sendWsp(name, username)
+      cart.deleteAll()
+      res.redirect("/")
+    } catch (error) {
+      logger.error(error)
+      res.redirect("/error/sistema")
+    }
   }
 })
 

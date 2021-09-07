@@ -12,6 +12,14 @@ class MongoC extends Mongo {
       logger.error(error)
     }
   }
+
+  async deleteAll() {
+    try {
+      await cart.deleteMany({})
+    } catch (error) {
+      logger.error(error)
+    }
+  }
 }
 
 module.exports = MongoC

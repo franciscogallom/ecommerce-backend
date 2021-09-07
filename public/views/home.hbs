@@ -1,0 +1,130 @@
+{{#if user}}
+
+  <div class="jumbotron d-flex justify-content-between">
+    <h1>👽 {{this.user}}.</h1>
+    <form action="/logout" method="post">
+      <button type="submit" class="btn btn-dark">Cerrar sesión</button>
+    </form>
+  </div>
+
+  {{#if products}}
+  <div class="jumbotron text-light mt-5 mb-5">
+    <h1 style="color: black;">Lista de productos disponibles.</h1>
+      <div style="color: black">
+        <div class="row border-bottom">
+          <div class="col-4 p-4 font-weight-bold">Nombre</div>
+          <div class="col-4 p-4 font-weight-bold">Precio</div>
+        </div>
+      {{#each products}}
+      <div class="row border-bottom">
+        <div class="col-4 p-4">{{this.name}}</div>
+        <div class="col-4 p-4">${{this.price}}</div>
+      </div>
+      {{/each}}
+    </div>
+    </div>
+  {{else}}
+    <div class="alert alert-warning fw-bold" role="alert"> No se encontraron productos.</div>
+  {{/if}}
+
+{{#if cart}}
+  <div class="jumbotron text-light mt-5 mb-5">
+    <h1 style="color: black;">Mi carrito.</h1>
+      <div style="color: black">
+        <div class="row border-bottom">
+          <div class="col-4 p-4 font-weight-bold">Nombre</div>
+          <div class="col-4 p-4 font-weight-bold">Precio</div>
+        </div>
+      {{#each cart}}
+      <div class="row border-bottom">
+        <div class="col-4 p-4">{{this.producto.name}}</div>
+        <div class="col-4 p-4">${{this.producto.price}}</div>
+      </div>
+      {{/each}}
+          <form action="/carrito/comprar" method="post">
+      <button type="submit" class="btn btn-dark">COMPRAR</button>
+    </form>
+    </div>
+  {{else}}
+    <div class="alert alert-warning fw-bold" role="alert"> No hay productos agregados al carrito.</div>
+  {{/if}}
+
+{{else}}
+  <div class="d-flex justify-content-center">
+    <div class="jumbotron flex-fill mr-1">
+      <h1>SignUp.</h1>
+      <form action="/signup" method="POST">
+        <input
+          class="form-control m-1"
+          type="text"
+          placeholder="Email."
+          name="username"
+          required
+        />
+        <input
+          class="form-control m-1"
+          type="password"
+          placeholder="Contraseña."
+          name="password"
+          required
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          placeholder="Nombre."
+          name="name"
+          required
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          placeholder="Direccion."
+          name="address"
+          required
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          placeholder="Celular."
+          name="phone"
+          required
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          placeholder="Edad."
+          name="age"
+          required
+        />
+        <input
+          class="form-control m-1"
+          type="text"
+          placeholder="Foto (URL)."
+          name="photo"
+          required
+        />
+        <button type="submit" class="m-1 btn btn-dark">REGISTRARSE</button>
+      </form>
+    </div>
+    <div class="jumbotron flex-fill ml-1">
+      <h1>LogIn.</h1>
+      <form action="/login" method="POST">
+        <input
+          class="m-1 form-control"
+          type="text"
+          placeholder="Nombre."
+          name="username"
+          required
+        />
+        <input
+          class="m-1 form-control"
+          type="password"
+          placeholder="Contraseña."
+          name="password"
+          required
+        />
+        <button type="submit" class="m-1 btn btn-dark">INICIAR SESIÓN</button>
+      </form>
+    </div>
+  </div>
+{{/if}}
