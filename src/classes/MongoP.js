@@ -9,24 +9,28 @@ class MongoP extends Mongo {
       if (filter) {
         if (filter.code || filter.name) {
           // Filtro por codigo de producto o nombre.
-          response = await producto.find(filter)
+          response = await producto.find(filter).lean()
         } else {
           const { priceMin, priceMax } = filter
           if (priceMin || priceMax) {
             // Filtro por precio (Si no recibo alguno de los dos, establezco un valor por defecto).
-            response = await producto.find({
-              price: { $gte: priceMin || 0, $lte: priceMax || 999999 },
-            })
+            response = await producto
+              .find({
+                price: { $gte: priceMin || 0, $lte: priceMax || 999999 },
+              })
+              .lean()
           } else {
             // Filtro por stock.
             const { stockMin, stockMax } = filter
             if (stockMin || stockMax) {
-              response = await producto.find({
-                stock: { $gte: stockMin || 0, $lte: stockMax || 999999 },
-              })
+              response = await producto
+                .find({
+                  stock: { $gte: stockMin || 0, $lte: stockMax || 999999 },
+                })
+                .lean()
             } else {
               // Sin filtro.
-              response = await producto.find()
+              response = await producto.find().lean()
             }
           }
         }

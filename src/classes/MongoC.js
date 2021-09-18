@@ -5,8 +5,7 @@ const logger = require("../config/log4js").getLogger("fileError")
 class MongoC extends Mongo {
   async getProducts() {
     try {
-      const response = await cart.find()
-      const result = response.map((cart) => cart.producto)
+      const result = await cart.find().lean()
       return result.length > 0 ? result : false
     } catch (error) {
       logger.error(error)
