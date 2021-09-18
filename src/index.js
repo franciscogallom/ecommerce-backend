@@ -2,11 +2,9 @@ require("dotenv").config()
 require("./passport/local")
 
 const express = require("express")
-const session = require("express-session")
 const handlebars = require("express-handlebars")
 const path = require("path")
 const passport = require("passport")
-const sessionConfig = require("./config/session")
 const logger = require("./config/log4js").getLogger()
 const handlebarsConfig = require("./config/handlebars")
 
@@ -30,7 +28,6 @@ app.use(function (err, req, res, next) {
   res.status(500).send(`Something broke. ${err.stack}`)
 })
 app.use(express.static(__dirname + "/public"))
-app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
 
