@@ -9,16 +9,14 @@ const sendSMS = require("../services/sendSMS")
 const sendWsp = require("../services/sendWsp")
 const logger = require("../config/log4js").getLogger("fileError")
 
-router.get("/listar/:id?", async (req, res) => {
+router.get("/:id?", async (req, res) => {
   const { id } = req.params
   if (id) {
     const result = await cart.getProductById(id)
     result ? res.send(result) : res.send({ error: "Producto no encontrado." })
   } else {
     const result = await cart.getProducts()
-    result
-      ? res.send(result)
-      : res.send({ error: "No hay productos cargados." })
+    res.render("cart", { cart: result })
   }
 })
 

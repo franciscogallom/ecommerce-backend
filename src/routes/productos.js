@@ -5,7 +5,7 @@ const Products = factory(`${process.env.DB}P`)
 const products = new Products("product")
 const admin = process.env.ADMIN === "true"
 
-router.get("/listar/:id?", async (req, res) => {
+router.get("/:id?", async (req, res) => {
   const { id } = req.params
   if (id) {
     const result = await products.getProductById(id)
@@ -13,9 +13,7 @@ router.get("/listar/:id?", async (req, res) => {
   } else {
     const filter = req.query
     const result = await products.getProducts(filter)
-    result
-      ? res.send(result)
-      : res.send({ error: "No hay productos cargados." })
+    res.render("products", { products: result })
   }
 })
 
