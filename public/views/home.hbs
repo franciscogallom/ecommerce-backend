@@ -7,48 +7,6 @@
     </form>
   </div>
 
-  {{#if products}}
-  <div class="jumbotron text-light mt-5 mb-5">
-    <h1 style="color: black;">Lista de productos disponibles.</h1>
-      <div style="color: black">
-        <div class="row border-bottom">
-          <div class="col-4 p-4 font-weight-bold">Nombre</div>
-          <div class="col-4 p-4 font-weight-bold">Precio</div>
-        </div>
-      {{#each products}}
-      <div class="row border-bottom">
-        <div class="col-4 p-4">{{this.name}}</div>
-        <div class="col-4 p-4">${{this.price}}</div>
-      </div>
-      {{/each}}
-    </div>
-    </div>
-  {{else}}
-    <div class="alert alert-warning fw-bold" role="alert"> No se encontraron productos.</div>
-  {{/if}}
-
-{{#if cart}}
-  <div class="jumbotron text-light mt-5 mb-5">
-    <h1 style="color: black;">Mi carrito.</h1>
-      <div style="color: black">
-        <div class="row border-bottom">
-          <div class="col-4 p-4 font-weight-bold">Nombre</div>
-          <div class="col-4 p-4 font-weight-bold">Precio</div>
-        </div>
-      {{#each cart}}
-      <div class="row border-bottom">
-        <div class="col-4 p-4">{{this.producto.name}}</div>
-        <div class="col-4 p-4">${{this.producto.price}}</div>
-      </div>
-      {{/each}}
-          <form action="/carrito/comprar" method="post">
-      <button type="submit" class="btn btn-dark">COMPRAR</button>
-    </form>
-    </div>
-  {{else}}
-    <div class="alert alert-warning fw-bold" role="alert"> No hay productos agregados al carrito.</div>
-  {{/if}}
-
 {{else}}
   <div class="d-flex justify-content-center">
     <div class="jumbotron flex-fill mr-1">

@@ -1,0 +1,22 @@
+{{#if products}}
+  <div class="jumbotron text-light mt-5 mb-5">
+    <h1 style="color: black;">Lista de productos disponibles.</h1>
+    <div style="color: black">
+      <div class="row border-bottom">
+        <div class="col-4 p-4 font-weight-bold">Nombre</div>
+        <div class="col-4 p-4 font-weight-bold">Precio</div>
+        <div class="col-4 p-4 font-weight-bold">Descripcion</div>
+      </div>
+      {{#each products}}
+        <div class="row border-bottom">
+          <div class="col-4 p-4">{{this.name}}</div>
+          <div class="col-4 p-4">${{this.price}}</div>
+          <div class="col-4 p-4">{{this.description}}</div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+{{else}}
+  <div class="alert alert-warning fw-bold" role="alert">
+    No se encontraron productos.</div>
+{{/if}}
