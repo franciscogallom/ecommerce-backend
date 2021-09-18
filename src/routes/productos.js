@@ -21,7 +21,7 @@ router.get("/listar/:id?", async (req, res) => {
 
 router.post("/agregar", async (req, res) => {
   if (admin) {
-    const newProduct = { timestamp: new Date().toLocaleString(), ...req.body }
+    const newProduct = req.body
     const result = await products.addProduct(newProduct)
     res.send(result)
   } else {

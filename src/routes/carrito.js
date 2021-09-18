@@ -26,11 +26,15 @@ router.post("/agregar/:id_producto", async (req, res) => {
   const Products = require(`../classes/${process.env.DB}P`)
   const products = new Products("product")
   const id = req.params.id_producto
+  const { quantity, email, address } = req.body
   const newProduct = await products.getProductById(id)
   if (newProduct) {
     const result = await cart.addProduct({
       timestamp: new Date().toLocaleString(),
       producto: newProduct,
+      quantity,
+      email,
+      address,
     })
     res.send(result)
   } else {
@@ -43,7 +47,7 @@ router.delete("/borrar/:id", async (req, res) => {
   const deletedProduct = await cart.deleteProductById(id)
   deletedProduct
     ? res.send(deletedProduct)
-    : res.send({ error: "Producto no encontrado." })
+    : res.send({ error: "Carrito no encontrado." })
 })
 
 router.post("/comprar", async (req, res) => {

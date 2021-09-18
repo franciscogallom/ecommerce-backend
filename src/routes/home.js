@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
   if (req.session.passport?.user) {
     const userId = req.session.passport.user
     user = await User.findById(userId)
-    user = user.username
+    user = user.name
     // .lean() to get a json object (instead of a mongoose one)
     products = await Products.find().lean()
     cart = await Cart.find().lean()
