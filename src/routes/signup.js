@@ -4,7 +4,7 @@ const passport = require("passport")
 router.post(
   "/",
   passport.authenticate("local-signup", {
-    successRedirect: "/",
+    successRedirect: "/productos",
     failureRedirect: "/error/signUp",
     passReqToCallback: true,
   })
