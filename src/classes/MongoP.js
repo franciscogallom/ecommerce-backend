@@ -41,6 +41,15 @@ class MongoP extends Mongo {
     }
   }
 
+  async getProductsByCategory(category) {
+    try {
+      const response = await producto.find({ category })
+      return response.length > 0 ? response : false
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
   async updateProduct(product, idSearched) {
     const newProduct = { _id: idSearched, ...product }
     try {

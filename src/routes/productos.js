@@ -17,6 +17,12 @@ router.get("/:id?", async (req, res) => {
   }
 })
 
+router.get("/categoria/:category", async (req, res) => {
+  const { category } = req.params
+  const result = await products.getProductsByCategory(category)
+  res.send(result)
+})
+
 router.post("/agregar", async (req, res) => {
   if (admin) {
     const newProduct = req.body
