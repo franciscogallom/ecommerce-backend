@@ -2,13 +2,13 @@ const transporter = require("../config/nodemailerTransporter")
 const logger = require("../config/log4js").getLogger()
 const loggerError = require("../config/log4js").getLogger("fileError")
 
-const send = (name, username, cart) => {
+const send = (to, name) => {
   return transporter.sendMail(
     {
       from: "ecommerce-backend",
-      to: process.env.ADMIN_EMAIL,
-      subject: `Nuevo pedido de ${name} (${username}) - ${new Date().toLocaleString()}.`,
-      html: cart.join(),
+      to,
+      subject: `Gracias por su compra ${name} - ${new Date().toLocaleString()}.`,
+      html: "Enviaremos su pedido en breve.",
     },
     (err, info) => {
       if (err) {

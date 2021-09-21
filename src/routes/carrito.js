@@ -4,9 +4,8 @@ const factory = require("../services/factory")
 const Cart = factory(`${process.env.DB}C`)
 const cart = new Cart("cart")
 const user = require("../models/user")
+const order = require("../models/order")
 const sendEmail = require("../services/sendEmailPurchase")
-const sendSMS = require("../services/sendSMS")
-const sendWsp = require("../services/sendWsp")
 const logger = require("../config/log4js").getLogger("fileError")
 
 router.get("/:id?", async (req, res) => {
@@ -49,23 +48,23 @@ router.delete("/borrar/:id", async (req, res) => {
 })
 
 router.post("/comprar", async (req, res) => {
-  if (!req.session.passport?.user) {
-    res.send("Expiro la sesion.")
-  } else {
-    try {
-      const result = await cart.getProducts()
-      const { name, username, phone } = await user.findById(
-        req.session.passport.user
-      )
-      sendEmail(name, username, result)
-      sendSMS(phone)
-      sendWsp(name, username)
-      cart.deleteAll()
-      res.redirect("/")
-    } catch (error) {
-      logger.error(error)
-      res.redirect("/error/sistema")
-    }
+  try {
+    // TODO: Get constants from session or something like that.
+    // const { name, username } = await user.findById(
+    //   req.session.passport.user
+    // )
+    const name = "Francisco"
+    const destinationEmail = "frangallofran@gmail.com"
+
+    // Send email to buyer.
+    sendEmail(destinationEmail, name)
+    // Send same email to admin.
+    sendEmail(process.env.ADMIN_EMAIL, name)
+    // cart.deleteAll()
+    res.redirect("/")
+  } catch (error) {
+    logger.error(error)
+    res.redirect("/error/sistema")
   }
 })
 
