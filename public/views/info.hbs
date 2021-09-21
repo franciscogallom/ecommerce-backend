@@ -1,0 +1,27 @@
+<div class="jumbotron">
+  <h1>Información.</h1>
+  <ul>
+    <li>Uso de Memoria:
+      <ul>
+        <li>rss: {{usoDeMemoria.rss}}</li>
+        <li>heapTotal: {{usoDeMemoria.heapTotal}}</li>
+        <li>heapUsed: {{usoDeMemoria.heapUsed}}</li>
+        <li>external: {{usoDeMemoria.external}}</li>
+        <li>arrayBuffers: {{usoDeMemoria.arrayBuffers}}</li>
+      </ul>
+    <li>Versión de Node: {{versionDeNode}}</li>
+    <li>Ruta de ejecución: {{pathDeEjecucion}}</li>
+    <li>Sistema Operativo: {{SO}}</li>
+    <li>
+      Argumentos de entrada:
+      <ol start="0">
+        {{#each argumentosDeEntrada}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ol>
+    </li>
+    <li>ID del proceso: {{idDelproceso}}</li>
+    <li>Carpeta corriente: {{carpetaCorriente}}</li>
+    <li>Numero de CPUs: {{numerosDeCPU}}</li>
+  </ul>
+</div>

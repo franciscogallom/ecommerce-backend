@@ -5,5 +5,15 @@ const logout = require("./logout")
 const signup = require("./signup")
 const home = require("./home")
 const error = require("./error")
+const info = require("./info")
 
-module.exports = { productos, carrito, login, logout, signup, home, error }
+module.exports = {
+  productos,
+  carrito,
+  login,
+  logout,
+  signup,
+  home,
+  error,
+  info,
+}

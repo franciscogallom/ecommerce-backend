@@ -16,6 +16,7 @@ const {
   signup,
   home,
   error,
+  info,
 } = require("./routes/index")
 
 const PORT = process.env.PORT || 8080
@@ -38,6 +39,7 @@ app.use("/login", login)
 app.use("/logout", logout)
 app.use("/signup", signup)
 app.use("/error", error)
+app.use("/info", info)
 app.use("/", home)
 
 // Handlebars.
