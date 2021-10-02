@@ -1,18 +1,4 @@
-const mongoose = require("mongoose")
 const logger = require("../config/log4js").getLogger("fileError")
-
-async function createConnection() {
-  return await mongoose.connect(
-    `mongodb+srv://${process.env.MONGO_NAME}:${process.env.MONGO_PASS}@cluster0.sqkzp.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
-}
-
-createConnection().catch(() => logger.error("Fallo la conexión a Mongoose."))
-
 class Mongo {
   constructor(type) {
     this.type = require(`../models/${type}`)

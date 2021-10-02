@@ -6,6 +6,7 @@ const signup = require("./signup")
 const home = require("./home")
 const error = require("./error")
 const info = require("./info")
+const chat = require("./chat")
 
 module.exports = {
   productos,
@@ -16,4 +17,5 @@ module.exports = {
   home,
   error,
   info,
+  chat,
 }
