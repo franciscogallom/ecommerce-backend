@@ -3,8 +3,8 @@ const router = express.Router()
 const factory = require("../services/factory")
 const Cart = factory(`${process.env.DB}C`)
 const cart = new Cart("cart")
-const user = require("../models/user")
-const order = require("../models/order")
+const Order = factory(`${process.env.DB}O`)
+const order = new Order("order")
 const sendEmail = require("../services/sendEmailPurchase")
 const logger = require("../config/log4js").getLogger("fileError")
 
@@ -56,11 +56,26 @@ router.post("/comprar", async (req, res) => {
     const name = "Francisco"
     const destinationEmail = "frangallofran@gmail.com"
 
+    let items = await cart.getProducts()
+    items = items.map((item) => {
+      return { quantity: item.quantity, ...item.producto }
+    })
+    numberOfOrder = await order.getNextOrderNumber()
+
+    await order.addProduct({
+      email: destinationEmail,
+      timestamp: new Date().toLocaleString(),
+      state: "Generada",
+      numberOfOrder,
+      items,
+    })
+
     // Send email to buyer.
     sendEmail(destinationEmail, name)
     // Send same email to admin.
     sendEmail(process.env.ADMIN_EMAIL, name)
-    // cart.deleteAll()
+
+    cart.deleteAll()
     res.redirect("/")
   } catch (error) {
     logger.error(error)
