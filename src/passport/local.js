@@ -33,17 +33,22 @@ passport.use(
           logger.info(`user "${userReceived.username}" already exists`)
           return done(null, false)
         } else {
-          const newUser = new User(userReceived)
-          newUser.password = newUser.encryptPassword(password)
-          newUser.save((err) => {
-            if (err) {
-              logger.error(`error saving user: ${err}`)
-              throw err
-            }
-            logger.info(`user "${username}" registration successful.`)
-            sendEmail(userReceived)
-            return done(null, newUser)
-          })
+          if (userReceived.password === userReceived.passwordCheck) {
+            const newUser = new User(userReceived)
+            newUser.password = newUser.encryptPassword(password)
+            newUser.save((err) => {
+              if (err) {
+                logger.error(`error saving user: ${err}`)
+                throw err
+              }
+              logger.info(`user "${username}" registration successful.`)
+              sendEmail(userReceived)
+              return done(null, newUser)
+            })
+          } else {
+            logger.info("incorrect password check")
+            return done(null, false)
+          }
         }
       })
     }
