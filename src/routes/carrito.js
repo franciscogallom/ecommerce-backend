@@ -7,7 +7,7 @@ const Order = factory(`${process.env.DB}O`)
 const order = new Order("order")
 const sendEmail = require("../services/sendEmailPurchase")
 const logger = require("../config/log4js").getLogger("fileError")
-const User = require("../models/user")
+const User = require("../classes/User")
 
 router.get("/:id?", async (req, res) => {
   const { id } = req.params
@@ -24,7 +24,8 @@ router.post("/agregar/:id_producto", async (req, res) => {
   const Products = require(`../classes/${process.env.DB}P`)
   const products = new Products("product")
   const id = req.params.id_producto
-  const { quantity, address } = req.body
+  const quantity = req.body.quantity || 1
+  const address = req.body.address || " "
   let email
   if (req.session.passport?.user) {
     email = await User.findById(req.session.passport.user)

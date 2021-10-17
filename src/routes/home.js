@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const User = require("../models/user")
+const User = require("../classes/User")
 
 router.get("/", async (req, res) => {
   let user
