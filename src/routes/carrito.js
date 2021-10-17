@@ -30,22 +30,22 @@ router.post("/agregar/:id_producto", async (req, res) => {
   if (req.session.passport?.user) {
     email = await User.findById(req.session.passport.user)
     email = email.username
+
+    const newProduct = await products.getProductById(id)
+    if (newProduct) {
+      const result = await cart.addProduct({
+        timestamp: new Date().toLocaleString(),
+        producto: newProduct,
+        quantity,
+        email,
+        address,
+      })
+      res.send(result)
+    } else {
+      res.send("El producto no existe, no se puede agregar al carrito.")
+    }
   } else {
     res.send("No esta logueado")
-  }
-
-  const newProduct = await products.getProductById(id)
-  if (newProduct) {
-    const result = await cart.addProduct({
-      timestamp: new Date().toLocaleString(),
-      producto: newProduct,
-      quantity,
-      email,
-      address,
-    })
-    res.send(result)
-  } else {
-    res.send("El producto no existe, no se puede agregar al carrito.")
   }
 })
 
