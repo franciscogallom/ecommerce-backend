@@ -9,6 +9,8 @@ const logger = require("./config/log4js").getLogger()
 const handlebarsConfig = require("./config/handlebars")
 const sockets = require("./services/sockets")
 const createConnection = require("./services/createConnection")
+const session = require("express-session")
+const sessionConfig = require("./config/session")
 
 const {
   productos,
@@ -38,6 +40,7 @@ app.use(function (err, req, res, next) {
   res.redirect(`/error/sistema. ${err.stack}`)
 })
 app.use(express.static(path.join(__dirname, "../public")))
+app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
 

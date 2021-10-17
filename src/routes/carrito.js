@@ -7,6 +7,7 @@ const Order = factory(`${process.env.DB}O`)
 const order = new Order("order")
 const sendEmail = require("../services/sendEmailPurchase")
 const logger = require("../config/log4js").getLogger("fileError")
+const User = require("../models/user")
 
 router.get("/:id?", async (req, res) => {
   const { id } = req.params
@@ -23,7 +24,15 @@ router.post("/agregar/:id_producto", async (req, res) => {
   const Products = require(`../classes/${process.env.DB}P`)
   const products = new Products("product")
   const id = req.params.id_producto
-  const { quantity, email, address } = req.body
+  const { quantity, address } = req.body
+  let email
+  if (req.session.passport?.user) {
+    email = await User.findById(req.session.passport.user)
+    email = email.username
+  } else {
+    res.send("No esta logueado")
+  }
+
   const newProduct = await products.getProductById(id)
   if (newProduct) {
     const result = await cart.addProduct({
@@ -49,12 +58,14 @@ router.delete("/borrar/:id", async (req, res) => {
 
 router.post("/comprar", async (req, res) => {
   try {
-    // TODO: Get constants from session or something like that.
-    // const { name, username } = await user.findById(
-    //   req.session.passport.user
-    // )
-    const name = "Francisco"
-    const destinationEmail = "frangallofran@gmail.com"
+    let user
+    if (req.session.passport?.user) {
+      const userId = req.session.passport.user
+      user = await User.findById(userId)
+    }
+
+    const name = user.name
+    const destinationEmail = user.username
 
     let items = await cart.getProducts()
     items = items.map((item) => {
