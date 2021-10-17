@@ -3,15 +3,22 @@
     <h1 style="color: black;">Lista de productos disponibles.</h1>
     <div style="color: black">
       <div class="row border-bottom">
-        <div class="col-4 p-4 font-weight-bold">Nombre</div>
-        <div class="col-4 p-4 font-weight-bold">Precio</div>
-        <div class="col-4 p-4 font-weight-bold">Descripcion</div>
+        <div class="col-3 p-3 font-weight-bold">Nombre</div>
+        <div class="col-3 p-3 font-weight-bold">Precio</div>
+        <div class="col-3 p-3 font-weight-bold">Descripcion</div>
       </div>
       {{#each products}}
         <div class="row border-bottom">
-          <div class="col-4 p-4">{{this.name}}</div>
-          <div class="col-4 p-4">${{this.price}}</div>
-          <div class="col-4 p-4">{{this.description}}</div>
+          <div class="col-3 p-3">{{this.name}}</div>
+          <div class="col-3 p-3">${{this.price}}</div>
+          <div class="col-3 p-3">{{this.description}}</div>
+          <form
+            action="/carrito/agregar/{{this._id}}"
+            method="post"
+            class="m-auto"
+          >
+            <button type="submit">Agregar</button>
+          </form>
         </div>
       {{/each}}
     </div>
