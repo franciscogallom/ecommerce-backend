@@ -59,12 +59,8 @@ router.delete("/borrar/:id", async (req, res) => {
 
 router.post("/comprar", async (req, res) => {
   try {
-    let user
-    if (req.session.passport?.user) {
-      const userId = req.session.passport.user
-      user = await User.findById(userId)
-    }
-
+    const userId = req.session.passport.user
+    const user = await User.findById(userId)
     const name = user.name
     const destinationEmail = user.username
 
@@ -82,10 +78,12 @@ router.post("/comprar", async (req, res) => {
       items,
     })
 
+    const html = items.map((item) => item.name)
+
     // Send email to buyer.
-    sendEmail(destinationEmail, name)
+    sendEmail(destinationEmail, name, html)
     // Send same email to admin.
-    sendEmail(process.env.ADMIN_EMAIL, name)
+    sendEmail(process.env.ADMIN_EMAIL, name, html)
 
     cart.deleteAll()
     res.redirect("/")
