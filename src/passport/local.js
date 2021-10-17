@@ -5,6 +5,8 @@ const sendEmail = require("../services/sendEmailLogin")
 const logger = require("../config/log4js").getLogger()
 const loggerError = require("../config/log4js").getLogger("fileError")
 const loggerWarn = require("../config/log4js").getLogger("fileWarn")
+const JWTStrategy = require("passport-jwt").Strategy
+const ExtractJWT = require("passport-jwt").ExtractJwt
 
 passport.serializeUser((user, done) => {
   done(null, user._id)
@@ -77,6 +79,23 @@ passport.use(
         logger.info(`Login - ${username}`)
         return done(null, user)
       })
+    }
+  )
+)
+
+passport.use(
+  "jwt",
+  new JWTStrategy(
+    {
+      secretOrKey: "secret",
+      jwtFromRequest: ExtractJWT.fromUrlQueryParameter("token"),
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user)
+      } catch (error) {
+        return next(error)
+      }
     }
   )
 )
