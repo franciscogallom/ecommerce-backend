@@ -2,8 +2,8 @@
 
 ![](https://lh6.googleusercontent.com/A7qgGX-CCnBER-1urLOsOx2SVcy5O4hqJcuIRC7HNACJy1y9Bv57NpvyokrpXGB-lWOHu0MxZDhV_nqlbN-Bucp3bHJ0wtFOL6M54JZaEwA1L_30WtjKPuRlme_Q_SuYivMwg18)
 
-** Backend de una aplicación de e-commerce para poder vender
-productos de un rubro a elección. **
+**Backend de una aplicación de e-commerce para poder vender
+productos de un rubro a elección.**
 
 ## User story/brief 👨‍💼👩‍💼
 
@@ -39,6 +39,6 @@ productos de un rubro a elección. **
 - Handlebars
 - Nodemailer
 
-### Heroku Deploy 🚀
+## Heroku Deploy 🚀
 
 **https://coder-ecommerce-backend.herokuapp.com/**
